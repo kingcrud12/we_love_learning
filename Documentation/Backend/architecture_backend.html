@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Architecture Backend - WLL</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true, theme: 'base', themeVariables: { primaryColor: '#F3E8FF', primaryTextColor: '#1E293B', primaryBorderColor: '#7C3AED', lineColor: '#64748B', fontFamily: 'Inter' } });
+    </script>
+    <style>
+        :root {
+            --primary-navy: #1E293B;
+            --bg-gray: #F8FAFC;
+            --sidebar-bg: #F1F5F9;
+            --accent-blue: #3B82F6;
+            --text-main: #334155;
+            --text-light: #64748B;
+            --white: #FFFFFF;
+            --success: #22C55E;
+            --warning: #F59E0B;
+            --danger: #EF4444;
+            --purple-brand: #7C3AED;
+            --spring-green: #6DB33F;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-gray);
+            color: var(--text-main);
+            display: flex;
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+
+        /* Sidebar */
+        nav {
+            width: 300px;
+            height: 100vh;
+            background-color: var(--sidebar-bg);
+            border-right: 1px solid #E2E8F0;
+            position: fixed;
+            padding: 2rem 1.5rem;
+            overflow-y: auto;
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--spring-green);
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-links {
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-light);
+            font-size: 0.95rem;
+            font-weight: 500;
+            display: block;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+
+        .nav-links a:hover {
+            background-color: #E2E8F0;
+            color: var(--primary-navy);
+        }
+
+        /* Main Content */
+        main {
+            margin-left: 300px;
+            flex: 1;
+            padding: 3rem 5rem;
+            max-width: 1200px;
+        }
+
+        header {
+            margin-bottom: 4rem;
+            border-bottom: 1px solid #E2E8F0;
+            padding-bottom: 2rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: var(--primary-navy);
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .subtitle {
+            color: var(--text-light);
+            font-size: 1.1rem;
+        }
+
+        section {
+            margin-bottom: 4rem;
+            scroll-margin-top: 2rem;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            color: var(--primary-navy);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #E2E8F0;
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            margin: 1.5rem 0 1rem 0;
+            color: var(--primary-navy);
+        }
+
+        /* Cards & Lists */
+        .card {
+            background: var(--white);
+            border-radius: 12px;
+            margin-top: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            margin-bottom: 1rem;
+            border: 1px solid #E2E8F0;
+        }
+
+        .code-block {
+            background-color: #1E293B;
+            color: #E2E8F0;
+            padding: 1.5rem;
+            border-radius: 8px;
+            font-family: 'JetBrains Mono', monospace, Consolas;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin-top: 1rem;
+        }
+
+        ul {
+            list-style-position: inside;
+            margin-left: 0.5rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-right: 5px;
+            margin-bottom: 5px;
+        }
+
+        .badge-success {
+            background: #DCFCE7;
+            color: var(--success);
+        }
+
+        .badge-warning {
+            background: #FEF3C7;
+            color: var(--warning);
+        }
+
+        .badge-danger {
+            background: #FEE2E2;
+            color: var(--danger);
+        }
+
+        .badge-info {
+            background: #DBEAFE;
+            color: var(--accent-blue);
+        }
+
+        .badge-spring {
+            background: #E8F5E9;
+            color: var(--spring-green);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #E2E8F0;
+        }
+
+        th {
+            background-color: #F8FAFC;
+            font-weight: 600;
+            color: var(--primary-navy);
+        }
+
+        .mermaid {
+            display: flex;
+            justify-content: center;
+            background: #FFFFFF;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            overflow-x: auto;
+        }
+
+        @media (max-width: 900px) {
+            nav {
+                width: 0;
+                display: none;
+            }
+
+            main {
+                margin-left: 0;
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <div class="logo">🍃 WLL Backend</div>
+        <ul class="nav-links">
+            <li><a href="#stack">1. Stack Technique</a></li>
+            <li><a href="#architecture">2. Architecture en Couches</a></li>
+            <li><a href="#api-rest">3. Endpoints API REST</a></li>
+            <li><a href="#securite">4. Sécurité & JWT</a></li>
+            <li><a href="#orm">5. Mapping ORM (JPA/Hibernate)</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <header>
+            <h1>Architecture Backend - WLL</h1>
+            <p class="subtitle">Spécifications de l'API REST avec Spring Boot 3</p>
+        </header>
+
+        <section id="stack">
+            <h2>1. Stack Technique Choisie</h2>
+            <div class="card" style="border-left: 4px solid var(--spring-green);">
+                <p>Le backend agit comme le cœur de la plateforme de formation : il expose les données via une API REST
+                    pure et gère la logique métier complexe (Qualiopi, Droits).</p>
+                <ul>
+                    <li><strong>Framework Principal :</strong> <span class="badge badge-spring">Spring Boot 3.x</span>
+                    </li>
+                    <li><strong>Langage :</strong> Java 17+ (ou 21 LTS)</li>
+                    <li><strong>Persistance :</strong> Spring Data JPA (Hibernate) + Base de données MySQL 8.x</li>
+                    <li><strong>Sécurité :</strong> Spring Security + JWT (JSON Web Tokens)</li>
+                    <li><strong>Build Tool :</strong> Maven (ou Gradle)</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="architecture">
+            <h2>2. Architecture en Couches (N-Tiers)</h2>
+            <p>L'application respecte une séparation stricte des responsabilités pour garantir la maintenabilité et
+                faciliter les tests unitaires.</p>
+
+            <div class="card mermaid">
+                graph TD
+                Client[Client Frontend Angular] -->|HTTP / JSON| C(Controllers)
+
+                subgraph Backend Spring Boot
+                C[<b>Controllers</b><br />Gestion req/res REST] -->|DTOs| S[<b>Services</b><br />Logique Métier WLL]
+                S -->|Entités JPA| R[<b>Repositories</b><br />Spring Data JPA]
+                S -->|Génération PDF| Ext[Services Externes Qualiopi]
+                end
+
+                R -->|SQL Dialect| DB[(MySQL Database)]
+            </div>
+        </section>
+
+        <section id="api-rest">
+            <h2>3. Spécification des Endpoints API REST</h2>
+            <p>L'API respecte les standards REST (verbes HTTP sémantiques, codes de retours standards).</p>
+
+            <div class="card">
+                <h3>Utilisateurs & Auth (<code>/api/auth</code>)</h3>
+                <table>
+                    <tr>
+                        <th>Méthode</th>
+                        <th>Endpoint</th>
+                        <th>Description</th>
+                        <th>Accès</th>
+                    </tr>
+                    <tr>
+                        <td><span class="badge badge-success">POST</span></td>
+                        <td><code>/api/auth/register</code></td>
+                        <td>Création d'un compte (Apprenant ou Formateur)</td>
+                        <td>Public</td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge badge-success">POST</span></td>
+                        <td><code>/api/auth/login</code></td>
+                        <td>Authentification et retour du Token JWT</td>
+                        <td>Public</td>
+                    </tr>
+                </table>
+
+                <h3 style="margin-top: 2rem;">Cours & Catalogue (<code>/api/cours</code>)</h3>
+                <table>
+                    <tr>
+                        <th>Méthode</th>
+                        <th>Endpoint</th>
+                        <th>Description</th>
+                        <th>Accès</th>
+                    </tr>
+                    <tr>
+                        <td><span class="badge badge-info">GET</span></td>
+                        <td><code>/api/cours</code></td>
+                        <td>Liste des cours publiés (Catalogue)</td>
+                        <td>Public / Apprenant</td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge badge-success">POST</span></td>
+                        <td><code>/api/cours</code></td>
+                        <td>Créer un nouveau cours</td>
+                        <td>Formateur uniquement</td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge badge-warning">PUT</span></td>
+                        <td><code>/api/cours/{id}</code></td>
+                        <td>Mettre à jour les infos d'un cours</td>
+                        <td>Formateur (propriétaire)</td>
+                    </tr>
+                </table>
+
+                <h3 style="margin-top: 2rem;">Apprentissage & Progression (<code>/api/progressions</code>)</h3>
+                <table>
+                    <tr>
+                        <th>Méthode</th>
+                        <th>Endpoint</th>
+                        <th>Description</th>
+                        <th>Accès</th>
+                    </tr>
+                    <tr>
+                        <td><span class="badge badge-success">POST</span></td>
+                        <td><code>/api/progressions/lecon/{id}</code></td>
+                        <td>Marque une leçon comme terminée + MAJ l'inscription</td>
+                        <td>Apprenant inscrit</td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge badge-info">GET</span></td>
+                        <td><code>/api/progressions/cours/{id}</code></td>
+                        <td>Récupère la jauge % de progression d'un cours</td>
+                        <td>Apprenant inscrit</td>
+                    </tr>
+                </table>
+            </div>
+        </section>
+
+        <section id="securite">
+            <h2>4. Sécurité & Stratégie JWT</h2>
+            <p>La sécurité est un enjeu majeur, notamment pour la protection des vidéos des formateurs et l'accès aux
+                attestations.</p>
+
+            <div class="card">
+                <h3>Flux d'Authentification (Stateless)</h3>
+                <ol>
+                    <li>Le client Angular envoie les credentials (Email/MDP) au <code>/api/auth/login</code>.</li>
+                    <li>Spring Security (via le <code>AuthenticationManager</code>) vérifie le hash avec BCrypt.</li>
+                    <li>Le serveur génère un <strong>JWT Token</strong> signé avec une clé secrète (contenant l'ID et
+                        les rôles de l'utilisateur), valide par exemple 24h.</li>
+                    <li>Le client stocke le token (LocalStorage/SessionStorage) et l'envoie dans le header
+                        <code>Authorization: Bearer &lt;token&gt;</code> pour CHAQUE future requête.</li>
+                    <li>Un <code>JwtAuthenticationFilter</code> intercepte les requêtes backend, décode le token, et
+                        vérifie les droits (ex: <code>@PreAuthorize("hasRole('FORMATEUR')")</code>).</li>
+                </ol>
+            </div>
+
+            <div class="code-block">
+                <pre><code>// Exemple Configuration Spring Security (Sécurité Configurer)
+@Bean
+public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    http.csrf(csrf -> csrf.disable())
+        .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+        .authorizeHttpRequests(auth -> 
+            auth.requestMatchers("/api/auth/**").permitAll()
+                .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.POST, "/api/cours/**").hasRole("FORMATEUR")
+                .anyRequest().authenticated()
+        );
+    http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+    return http.build();
+}</code></pre>
+            </div>
+        </section>
+
+        <section id="orm">
+            <h2>5. Mapping ORM (JPA) Typique</h2>
+            <p>Les entités conçues dans le MLD/MPD sont directement mappées en classes Java annotées.</p>
+
+            <div class="code-block">
+                <pre><code>@Entity
+@Table(name = "cours")
+public class Cours {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false)
+    private String titre;
+
+    // Mapping de la relation (Un Formateur crée plusieurs cours)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "formateur_id", nullable = false)
+    private Utilisateur formateur;
+
+    // Un cours a plusieurs modules - Propagation en cascade
+    @OneToMany(mappedBy = "cours", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List&lt;Module&gt; modules = new ArrayList&lt;&gt;();
+
+    // Getters and Setters...
+}</code></pre>
+            </div>
+        </section>
+
+        <br><br><br>
+    </main>
+
+</body>
+
+</html>

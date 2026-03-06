@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conception Technique & Fonctionnelle - WLL</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true, theme: 'base', themeVariables: { primaryColor: '#F3E8FF', primaryTextColor: '#1E293B', primaryBorderColor: '#7C3AED', lineColor: '#64748B', fontFamily: 'Inter' } });
+    </script>
+    <style>
+        :root {
+            --primary-navy: #1E293B;
+            --bg-gray: #F8FAFC;
+            --sidebar-bg: #F1F5F9;
+            --accent-blue: #3B82F6;
+            --text-main: #334155;
+            --text-light: #64748B;
+            --white: #FFFFFF;
+            --success: #22C55E;
+            --warning: #F59E0B;
+            --danger: #EF4444;
+            --purple-brand: #7C3AED;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-gray);
+            color: var(--text-main);
+            display: flex;
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+
+        /* Sidebar */
+        nav {
+            width: 300px;
+            height: 100vh;
+            background-color: var(--sidebar-bg);
+            border-right: 1px solid #E2E8F0;
+            position: fixed;
+            padding: 2rem 1.5rem;
+            overflow-y: auto;
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--purple-brand);
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-links {
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-light);
+            font-size: 0.95rem;
+            font-weight: 500;
+            display: block;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+
+        .nav-links a:hover {
+            background-color: #E2E8F0;
+            color: var(--primary-navy);
+        }
+
+        /* Main Content */
+        main {
+            margin-left: 300px;
+            flex: 1;
+            padding: 3rem 5rem;
+            max-width: 1200px;
+        }
+
+        header {
+            margin-bottom: 4rem;
+            border-bottom: 1px solid #E2E8F0;
+            padding-bottom: 2rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: var(--primary-navy);
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .subtitle {
+            color: var(--text-light);
+            font-size: 1.1rem;
+        }
+
+        section {
+            margin-bottom: 4rem;
+            scroll-margin-top: 2rem;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            color: var(--primary-navy);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #E2E8F0;
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            margin: 1.5rem 0 1rem 0;
+            color: var(--primary-navy);
+        }
+
+        /* Cards & Lists */
+        .card {
+            background: var(--white);
+            border-radius: 12px;
+            margin-top: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            margin-bottom: 1rem;
+            border: 1px solid #E2E8F0;
+        }
+
+        .code-block {
+            background-color: #1E293B;
+            color: #E2E8F0;
+            padding: 1.5rem;
+            border-radius: 8px;
+            font-family: 'JetBrains Mono', monospace, Consolas;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin-top: 1rem;
+        }
+
+        ul {
+            list-style-position: inside;
+            margin-left: 0.5rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        .mermaid {
+            display: flex;
+            justify-content: center;
+            background: #FFFFFF;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            overflow-x: auto;
+        }
+
+        @media (max-width: 900px) {
+            nav {
+                width: 0;
+                display: none;
+            }
+
+            main {
+                margin-left: 0;
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <div class="logo">⚙️ WLL Design</div>
+        <ul class="nav-links">
+            <li><a href="#intro">1. Introduction</a></li>
+            <li><a href="#mcd">2. Modèle Conceptuel (MCD)</a></li>
+            <li><a href="#mld">3. Modèle Logique (MLD)</a></li>
+            <li><a href="#mpd">4. Modèle Physique (MPD)</a></li>
+            <li><a href="#use-cases">5. Cas d'Utilisation</a></li>
+            <li><a href="#sequence">6. Diagrammes de Séquence</a></li>
+            <li><a href="#ui-ux">7. UI/UX & Maquettes</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <header>
+            <h1>Conception Technique & Fonctionnelle - WLL</h1>
+            <p class="subtitle">Modélisation de la base de données, des flux et interfaces du projet.</p>
+        </header>
+
+        <section id="intro">
+            <h2>1. Introduction à la Conception</h2>
+            <div class="card" style="border-left: 4px solid var(--purple-brand);">
+                <p>Ce document fige l'architecture fonctionnelle et base de données de la plateforme We Love Learning
+                    (WLL). Il agit comme le contrat principal entre les besoins métiers de l'analyse préalable et le
+                    développement logiciel à venir.</p>
+            </div>
+            <p>Il regroupe :</p>
+            <ul>
+                <li>La conception de données : MCD, MLD, MPD (MySQL).</li>
+                <li>La modélisation comportementale : Diagrammes de Cas d'utilisation et de Séquence.</li>
+                <li>Le rendu visuel (Wireframes / Maquettes).</li>
+            </ul>
+        </section>
+
+        <section id="mcd">
+            <h2>2. Modèle Conceptuel de Données (MCD)</h2>
+            <p>L'objectif de ce MCD est de représenter les concepts métiers (Entités) et leurs liens dans la plateforme
+                de formation.</p>
+
+            <div class="card">
+                <h3>Concepts Métiers Identifiés</h3>
+                <ul>
+                    <li><strong>Utilisateur (Apprenant, Formateur, Admin) :</strong> L'acteur central de la plateforme.
+                    </li>
+                    <li><strong>Cours :</strong> Le conteneur principal du savoir, appartenant à un formateur.</li>
+                    <li><strong>Module & Leçon :</strong> La subdivision granulaire d'un cours.</li>
+                    <li><strong>Inscription :</strong> Le lien entre un Apprenant, un Cours et sa progression (pour le
+                        tracking Qualiopi).</li>
+                    <li><strong>Communauté / Message :</strong> L'axe "Social Learning" attaché aux leçons.</li>
+                </ul>
+            </div>
+
+            <div class="card mermaid">
+                classDiagram
+                direction BT
+                class Utilisateur {
+                UUID id
+                String nom
+                String email
+                String role
+                }
+                class Cours {
+                UUID id
+                String titre
+                String description
+                Float prix
+                }
+                class Inscription {
+                UUID id
+                Date date_inscription
+                Float progression
+                }
+                class Module {
+                UUID id
+                String titre
+                Int ordre
+                }
+                class Lecon {
+                UUID id
+                String titre
+                String video_url
+                String contenu
+                }
+                class Message {
+                UUID id
+                String texte
+                Date date_envoi
+                }
+
+                Cours "1" *-- "*" Module : Contient
+                Module "1" *-- "*" Lecon : Compose
+                Cours "*" --> "1" Utilisateur : Créé par (Formateur)
+                Inscription "*" --> "1" Utilisateur : Appartient à (Apprenant)
+                Inscription "*" --> "1" Cours : Concerne
+                Message "*" --> "1" Utilisateur : Ecrit par
+                Message "*" --> "1" Lecon : Appartient à
+            </div>
+        </section>
+
+        <section id="mld">
+            <h2>3. Modèle Logique de Données (MLD)</h2>
+            <p>Le modèle logique est la traduction technique du MCD. Les entités deviennent des tables (attributs typés
+                `VARCHAR`, `INT`, `DATETIME`, etc.), et les relations se transforment en <strong>Clés Étrangères
+                    (FK)</strong> avec l'application stricte de règles métiers.</p>
+            <div class="card mermaid">
+                erDiagram
+                UTILISATEUR ||--o{ COURS : "cree (formateur_id)"
+                UTILISATEUR ||--o{ INSCRIPTION : "possede (apprenant_id)"
+                COURS ||--o{ INSCRIPTION : "genere (cours_id)"
+                COURS ||--o{ MODULE : "contient (cours_id)"
+                MODULE ||--o{ LECON : "possede (module_id)"
+                UTILISATEUR ||--o{ MESSAGE : "envoie (auteur_id)"
+                LECON ||--o{ MESSAGE : "heberge (lecon_id)"
+
+                UTILISATEUR {
+                int id PK
+                varchar(255) nom
+                varchar(255) email "UNIQUE"
+                varchar(255) mot_de_passe
+                enum role "APPRENANT, FORMATEUR, ADMIN"
+                datetime date_creation
+                }
+                COURS {
+                int id PK
+                int formateur_id FK
+                varchar(255) titre
+                text description
+                decimal prix
+                boolean publie
+                }
+                INSCRIPTION {
+                int id PK
+                int apprenant_id FK
+                int cours_id FK
+                datetime date_inscription
+                int progression_pourcent
+                }
+                MODULE {
+                int id PK
+                int cours_id FK
+                varchar(255) titre
+                int ordre_affichage
+                }
+                LECON {
+                int id PK
+                int module_id FK
+                varchar(255) titre
+                varchar(512) video_url
+                text contenu_texte
+                }
+                MESSAGE {
+                int id PK
+                int lecon_id FK
+                int auteur_id FK
+                text contenu
+                datetime cree_le
+                }
+            </div>
+        </section>
+
+        <section id="mpd">
+            <h2>4. Modèle Physique de Données (MPD) - MySQL</h2>
+            <p>Le MPD prend en compte les contraintes spécifiques du SGBD <strong>MySQL</strong>. Voici le script DDL
+                (Data Definition Language) avec la création des tables, contraintes d'intégrité, et un jeu de données de
+                test (Data Manipulation) pour valider l'insertion.</p>
+
+            <div class="code-block">
+                <pre><code>-- Création de la base de données
+CREATE DATABASE IF NOT EXISTS wll_db;
+USE wll_db;
+
+-- 1. Table Utilisateur
+CREATE TABLE utilisateur (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nom VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    mot_de_passe VARCHAR(255) NOT NULL,
+    role ENUM('APPRENANT', 'FORMATEUR', 'ADMIN') DEFAULT 'APPRENANT',
+    date_creation DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 2. Table Cours
+CREATE TABLE cours (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    formateur_id INT NOT NULL,
+    titre VARCHAR(255) NOT NULL,
+    description TEXT,
+    prix DECIMAL(10, 2) DEFAULT 0.00,
+    publie BOOLEAN DEFAULT FALSE,
+    FOREIGN KEY (formateur_id) REFERENCES utilisateur(id) ON DELETE CASCADE
+);
+
+-- 3. Inscription (Table de liaison avec progression)
+CREATE TABLE inscription (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    apprenant_id INT NOT NULL,
+    cours_id INT NOT NULL,
+    date_inscription DATETIME DEFAULT CURRENT_TIMESTAMP,
+    progression_pourcent INT DEFAULT 0 CHECK (progression_pourcent BETWEEN 0 AND 100),
+    FOREIGN KEY (apprenant_id) REFERENCES utilisateur(id) ON DELETE CASCADE,
+    FOREIGN KEY (cours_id) REFERENCES cours(id) ON DELETE CASCADE,
+    UNIQUE(apprenant_id, cours_id)
+);
+
+-- INSERTION DONNÉES DE TEST (MPD)
+INSERT INTO utilisateur (nom, email, mot_de_passe, role) VALUES 
+('Sophie Formateur', 'sophie@wll.com', 'hash_mdp', 'FORMATEUR'),
+('Alex Apprenant', 'alex@gmail.com', 'hash_mdp', 'APPRENANT');
+
+INSERT INTO cours (formateur_id, titre, description, prix, publie) VALUES 
+(1, 'Développement Web Complet 2026', 'Apprenez le dev web.', 49.99, TRUE);
+
+INSERT INTO inscription (apprenant_id, cours_id, progression_pourcent) VALUES 
+(2, 1, 45);
+</code></pre>
+            </div>
+        </section>
+
+        <section id="use-cases">
+            <h2>5. Diagrammes de Cas d'Utilisation</h2>
+            <p>Ces diagrammes représentent les interactions principales prévues (use cases) entre les acteurs (les
+                parties prenantes de l'analyse préalable) et le système WLL.</p>
+
+            <div class="card mermaid">
+                flowchart LR
+                Apprenant([Apprenant👤])
+                Formateur([Formateur👩‍🏫])
+
+                subgraph SystemeWLL [Système WLL]
+                UC1(S'inscrire à un cours)
+                UC2(Visionner une vidéo pédagogique)
+                UC3(Poster un message/question dans la cohorte)
+                UC4(Télécharger son certificat Qualiopi)
+                UC5(Créer un nouveau cours / Ajouter leçons)
+                UC6(Suivre les statistiques de ses élèves)
+                end
+
+                Apprenant --> UC1
+                Apprenant --> UC2
+                Apprenant --> UC3
+                Apprenant --> UC4
+
+                Formateur --> UC5
+                Formateur --> UC6
+                Formateur --> UC3
+            </div>
+        </section>
+
+        <section id="sequence">
+            <h2>6. Diagrammes de Séquence</h2>
+            <p>Ce diagramme illustre le flux technique (échange de requêtes) et montre comment les différents services
+                de l'application (UI et API/Base de données) communiquent lors de l'action : <strong>Marquer une leçon
+                    comme terminée</strong>.</p>
+
+            <div class="card mermaid">
+                sequenceDiagram
+                actor User as Apprenant
+                participant UI as Frontend Angular
+                participant API as Backend Spring Boot
+                participant DB as Base MySQL SGBD
+
+                User->>UI: Clique sur "Leçon terminée"
+                UI->>API: POST /api/progressions {lecon_id: 42} (JWT Token)
+                API->>API: Valide le Token JWT & les règles métiers
+                API->>DB: SELECT Inscription (vérifie accès)
+                DB-->>API: OK (Inscription Trouvée)
+                API->>DB: UPDATE progression_pourcent = X
+                DB-->>API: Lignes affectées = 1
+
+                alt Si Cours 100% terminé
+                API->>API: Génération PDF (Service Certificat)
+                API-->>UI: 200 OK {status: 'COMPLETED', cert_url: '...'}
+                UI-->>User: Affiche Confettis 🎉 & Bouton Certificat
+                else Si en cours
+                API-->>UI: 200 OK {status: 'IN_PROGRESS'}
+                UI-->>User: Met à jour la jauge de progression
+                end
+            </div>
+        </section>
+
+        <section id="ui-ux">
+            <h2>7. Maquettes & UI/UX (Prototypes)</h2>
+            <p>En partant des flux décrits dans les diagrammes de cas d'utilisation (Notamment "Consulter son tableau de
+                bord" et "Visionner une vidéo pédagogique"), nous avons itéré vers des wireframes pour aboutir aux
+                prototypes UI finaux (Design System et Maquettes interactives).</p>
+
+            <div class="card" style="display: flex; gap: 2rem; overflow-x: auto;">
+                <div style="min-width: 300px; flex: 1;">
+                    <img src="../../Frontend/Design/exemples/Capture d’écran 2026-03-06 à 16.34.20.png"
+                        alt="Dashboard Apprenant" style="width:100%; border-radius: 8px; border: 1px solid #E2E8F0;">
+                    <p style="text-align:center; font-size:0.9rem; margin-top:0.5rem; color:var(--text-light);">
+                        Prototype : Tableau de bord</p>
+                </div>
+                <div style="min-width: 300px; flex: 1;">
+                    <img src="../../Frontend/Design/exemples/Capture d’écran 2026-03-06 à 16.33.38.png" alt="Vue Cours"
+                        style="width:100%; border-radius: 8px; border: 1px solid #E2E8F0;">
+                    <p style="text-align:center; font-size:0.9rem; margin-top:0.5rem; color:var(--text-light);">
+                        Prototype : Page de cours/studio</p>
+                </div>
+            </div>
+        </section>
+
+        <br><br><br>
+    </main>
+
+</body>
+
+</html>
