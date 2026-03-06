@@ -1,9 +1,10 @@
 # WLL - We love learning - Documentation
 
-**Présentation**
+## Présentation
+
 La présente documentation centralise tout ce qu'il y a à savoir sur la plateforme WLL.
 
-Elle est divisée en différentes docuemnts :
+Elle est divisée en différentes documents :
 
 - un document functionnal_analysis.html (disponible via documentation/functional_analysis) : qui concentre le résultat de l'analyse fonctionnelle menée autour du projet
 

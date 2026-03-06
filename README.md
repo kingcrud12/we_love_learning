@@ -29,7 +29,7 @@ La réalisation de la plateforme s'est déclinée en différentes étapes :
 
 La conception de WLL a pris la forme de : Modèle conceptuel, logique et physique de données (schéma de BDD)
 
-- S'agissant du Modèle conceptuel de données (MCD) , l'objectif était de représenter les concepts métiers ainsi que les relations entre ses différents concepts.
+- S'agissant du Modèle conceptuel de données (MCD) , l'objectif était de représenter les concepts métiers ainsi que les relations entre ces différents concepts.
 
 - Le modèle logique est la traduction technique du MCD, les les propriétés des entités deviennent des attributs, ces attributs ont des types bien précis (VARCHAR, INT etc), les relations sont matérialisées par les clés étrangères, les règles métiers sont bien précisés.
 
