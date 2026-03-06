@@ -1,6 +1,10 @@
 # WLL - We love learning
 
-**WLL** est une plateforme de formation conçue pour offrir une expérience d'apprentissage confortable et sereine. L'interface y est épurée et claire, l'apprenant n'est pas surchargé d'informations, il peut rapidement trouver des informations qui l'intéressent, suivre sa progression et avancer à son rythme. Le formateur quant à lui, dispose d'une interface claire qui lui permet de créer et éditer des cours avec facilité et efficacité. Il a également accès aux différentes métriques sur chacune de ses formations : les temps de visionnage , conversion en visite achats etc
+**WLL** est une plateforme de formation conçue pour offrir une expérience d'apprentissage confortable et sereine.
+
+L'interface y est épurée et claire, l'apprenant n'est pas surchargé d'informations, il peut rapidement trouver des informations qui l'intéressent, suivre sa progression et avancer à son rythme.
+
+Le formateur quant à lui, dispose d'une interface claire qui lui permet de créer et éditer des cours avec facilité et efficacité. Il a également accès aux différentes métriques sur chacune de ses formations : les temps de visionnage , conversion en visite achats etc
 
 ---
 
